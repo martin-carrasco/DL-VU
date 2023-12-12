@@ -10,7 +10,7 @@ import torchvision.transforms as transforms
 import matplotlib.pyplot as plt
 
 LR = 0.0001
-EPOCH = 10
+EPOCH = 5
 MOMENTUM = 0.9
 BATCH_SIZE = 4
 transform = transforms.Compose(
