@@ -10,7 +10,7 @@ import torchvision.transforms as transforms
 import matplotlib.pyplot as plt
 
 LR = 0.0001
-EPOCH = 5
+EPOCH = 10
 MOMENTUM = 0.9
 BATCH_SIZE = 4
 transform = transforms.Compose(
@@ -95,9 +95,6 @@ optimizer = optim.Adam(net.parameters(), lr=LR)
 
 for epoch in range(EPOCH):  # loop over the dataset multiple times
     for img_size in list(batch_tensors['train'].keys()):
-        print(img_size)
-        if img_size != '64x64':
-            continue
         running_loss = 0.0
         for i, data in enumerate(batch_loaders['train'][img_size], 0): # get the inputs; data is a list of [inputs, labels] 
             inputs, labels = data # zero the parameter gradients
