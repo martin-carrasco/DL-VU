@@ -42,6 +42,7 @@ for t in train_dataset:
 for t in test_dataset:
     img_size_str = f'{t[0].size[0]}x{t[0].size[1]}'
     tensor_image = transforms.ToTensor()(t[0])
+    tensor_image = transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))(tensor_image)
     if not img_size_str in batch_tensors['test']:
         batch_tensors['test'][img_size_str] = []
         batch_loaders['test'][img_size_str] = None
@@ -94,6 +95,7 @@ optimizer = optim.Adam(net.parameters(), lr=LR)
 
 for epoch in range(EPOCH):  # loop over the dataset multiple times
     for img_size in list(batch_tensors['train'].keys()):
+        print(img_size)
         if img_size != '64x64':
             continue
         running_loss = 0.0
