@@ -25,8 +25,8 @@ transform = transforms.Compose(
      transforms.ToTensor(),
      transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))])
 
-#PREFIX='/var/scratch/dl23037/'
-PREFIX='./'
+PREFIX='/var/scratch/dl23037/'
+#PREFIX='./'
 train_dataset = torchvision.datasets.ImageFolder(root=PREFIX+'mnist-varres/train', transform=transform)
 test_dataset = torchvision.datasets.ImageFolder(root=PREFIX+'mnist-varres/test', transform=transform)
 
