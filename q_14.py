@@ -9,7 +9,7 @@ import torchvision
 import torchvision.transforms as transforms
 import matplotlib.pyplot as plt
 
-LR = 0.001
+LR = 0.0001
 EPOCH = 10
 MOMENTUM = 0.9
 BATCH_SIZE = 4
@@ -93,8 +93,10 @@ optimizer = optim.Adam(net.parameters(), lr=LR)
 
 
 for epoch in range(EPOCH):  # loop over the dataset multiple times
-    running_loss = 0.0
     for img_size in list(batch_tensors['train'].keys()):
+        if img_size != '64x64':
+            continue
+        running_loss = 0.0
         for i, data in enumerate(batch_loaders['train'][img_size], 0): # get the inputs; data is a list of [inputs, labels] 
             inputs, labels = data # zero the parameter gradients
             optimizer.zero_grad() # forward + backward + optimize
@@ -108,12 +110,11 @@ for epoch in range(EPOCH):  # loop over the dataset multiple times
             if i % 2000 == 1999:    # print every 2000 mini-batches
                 #print(f'[{epoch + 1}, {i + 1:5d}] loss: {running_loss / 2000:.3f}')
                 running_loss = 0.0
-    correct = 0.0
-    total = 0.0
-    # since we're not training, we don't need to calculate the gradients for our outputs
-    with torch.no_grad():
-        for img_size in list(batch_loaders['test'].keys()):
-            for data in batch_loaders['test']['img_size']:
+        correct = 0.0
+        total = 0.0
+        # since we're not training, we don't need to calculate the gradients for our outputs
+        with torch.no_grad():
+            for data in batch_loaders['test'][img_size]:
                 images, labels = data
                 # calculate outputs by running images through the network
                 outputs = net(images)
@@ -121,4 +122,4 @@ for epoch in range(EPOCH):  # loop over the dataset multiple times
                 _, predicted = torch.max(outputs.data, 1)
                 total += labels.size(0)
                 correct += (predicted == labels).sum().item()
-    print(f'Epoch: {epoch}, acc: {correct / total}')
+        print(f'Epoch: {epoch}, acc: {correct / total}, img_size:{img_size}')
