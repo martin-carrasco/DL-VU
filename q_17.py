@@ -84,6 +84,6 @@ for epoch in range(EPOCH):  # loop over the dataset multiple times
     results['Loss'].append(running_loss)
     results['Accuracy'].append(correct / total)
     results['Method'].append('FS')
-    print(f'Epoch: {epoch}, acc: {correct / total}')
+    #print(f'Epoch: {epoch}, acc: {correct / total}')
 df = pd.DataFrame.from_dict(results)
-df.to_csv('mean_pooling.csv')
+df.to_csv('fs.csv')
