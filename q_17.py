@@ -16,8 +16,10 @@ transform = transforms.Compose(
      transforms.ToTensor(),
      transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))])
 
-train_dataset = torchvision.datasets.ImageFolder(root='mnist-varres/train', transform=transform)
-test_dataset = torchvision.datasets.ImageFolder(root='mnist-varres/test', transform=transform)
+PREFIX='/var/scratch/dl23037/'
+#PREFIX='./'
+train_dataset = torchvision.datasets.ImageFolder(root=PREFIX+'mnist-varres/train')
+test_dataset = torchvision.datasets.ImageFolder(root=PREFIX+'mnist-varres/test')
 
 
 train_loader = torch.utils.data.DataLoader(train_dataset,
