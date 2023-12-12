@@ -17,8 +17,6 @@ transform = transforms.Compose(
     [transforms.Resize((28, 28)),
      transforms.ToTensor(),
      transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))])
-
-
 PREFIX='/var/scratch/dl23037/'
 #PREFIX='./'
 train_dataset = torchvision.datasets.ImageFolder(root=PREFIX+'mnist-varres/train')
@@ -83,8 +81,7 @@ class Net(nn.Module):
         x = self.pool(F.relu(self.conv2(x)))
         x = self.pool(F.relu(self.conv3(x)))
 
-        x = F.adaptive_max_pool2d(x, output_size=1).squeeze(3).squeeze(2)
-        #x = torch.max(x, (2, 3))
+        x = x.mean((2, 3))
         x = self.fc1(x)
         #x = torch.flatten(x, 1) # flatten all dimensions except batch
         #x = F.relu(self.fc1(x))
@@ -134,7 +131,7 @@ for epoch in range(EPOCH):  # loop over the dataset multiple times
     results['Epoch'].append(epoch)
     results['Loss'].append(running_loss)
     results['Accuracy'].append(total_all_batch / 3)
-    results['Method'].append('VS-GMaxP')
+    results['Method'].append('VS-GMeanP')
     #print(f'Epoch: {epoch}, acc: {correct / total}, img_size:{img_size}')
 df = pd.DataFrame.from_dict(results)
-df.to_csv('max_pooling.csv')
+df.to_csv('mean_pooling.csv')
